@@ -179,7 +179,7 @@ class SPICE:
 
 
         pitch_outputs_and_rests = [
-            self.output2hz(p) if c >= 0.9 else 0
+            self.output2hz(p) if c >= 0.1 else 0
             for i, p, c in zip(indices, pitch_outputs, confidence_outputs)
         ]
 
@@ -201,6 +201,8 @@ class SPICE:
                     best_error = error
                     best_notes_and_rests = notes_and_rests
 
+        if all(e == 'Rest' for e in best_notes_and_rests):
+            return 'Rest'
         # At this point, best_notes_and_rests contains the best quantization.
         # Since we don't need to have rests at the beginning, let's remove these:
         while best_notes_and_rests[0] == 'Rest':
