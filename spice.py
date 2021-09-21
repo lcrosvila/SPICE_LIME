@@ -203,7 +203,7 @@ class SPICE:
                     best_notes_and_rests = notes_and_rests
 
         if all(e == 'Rest' for e in best_notes_and_rests):
-            return 'Rest'
+            return ['Rest']
         # At this point, best_notes_and_rests contains the best quantization.
         # Since we don't need to have rests at the beginning, let's remove these:
         while best_notes_and_rests[0] == 'Rest':
