@@ -37,11 +37,12 @@ class SPICE:
         self.MAX_ABS_INT16 = MAX_ABS_INT16
 
     def convert_audio_for_model(self, audio_path):
-        audio = AudioSegment.from_file(audio_path)
-        audio = audio.set_frame_rate(self.EXPECTED_SAMPLE_RATE).set_channels(1)
         head, tail = os.path.split(audio_path)
         output_file = os.path.join(head, "converted_"+tail)
-        audio.export(output_file, format="wav")
+        if not os.path.exists(output_file):
+            audio = AudioSegment.from_file(audio_path)
+            audio = audio.set_frame_rate(self.EXPECTED_SAMPLE_RATE).set_channels(1)
+            audio.export(output_file, format="wav")
         return output_file
 
     def load_audio(self, audio_path):
