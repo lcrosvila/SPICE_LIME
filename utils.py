@@ -9,7 +9,7 @@ import IPython
 
 def plot_stft(x, sample_rate, show_black_and_white=False):
   stft = librosa.stft(x, n_fft=2048)
-  x_stft = np.abs(stft)
+  x_stft = np.abs(stft)+1e-9
   fig, ax = plt.subplots()
   fig.set_size_inches(20, 10)
   x_stft_db = librosa.amplitude_to_db(x_stft, ref=np.max)
