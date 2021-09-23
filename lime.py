@@ -39,7 +39,7 @@ class LIME:
         active_pixels = np.where(perturbation == 1)[0]
         mask = np.zeros(segments.shape)
         for active in active_pixels:
-            mask[segments == active] = 0.251189 # -6dB
+            mask[segments == active] = 0.063096 # -12dB
         perturbed_image = copy.deepcopy(img)
         perturbed_image = perturbed_image*mask
         perturbed_signal = librosa.istft(perturbed_image)
