@@ -213,3 +213,21 @@ class SPICE:
             best_notes_and_rests = best_notes_and_rests[:-1]
 
         return best_notes_and_rests
+    
+def convert_audio_for_model(audio_path):
+    head, tail = os.path.split(audio_path)
+    output_file = os.path.join(head, "converted_"+tail)
+    if not os.path.exists(output_file):
+        audio = AudioSegment.from_file(audio_path)
+        audio = audio.set_frame_rate(EXPECTED_SAMPLE_RATE).set_channels(1)
+        audio.export(output_file, format="wav")
+    return output_file
+
+def load_audio(audio_path):
+    current_file = convert_audio_for_model(audio_path)
+    sample_rate, audio_samples = wavfile.read(
+        current_file, 'rb')
+
+    audio_samples = audio_samples / float(MAX_ABS_INT16)
+    
+    return audio_samples, sample_rate
