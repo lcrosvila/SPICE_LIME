@@ -25,3 +25,4 @@ def plot_stft(x, sample_rate, show_black_and_white=False):
 
 def play_audio(audio_samples, sample_rate):
     IPython.display.display(Audio(audio_samples, rate=sample_rate))
+
