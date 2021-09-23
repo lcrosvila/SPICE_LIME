@@ -39,18 +39,18 @@ class LIME:
         active_pixels = np.where(perturbation == 1)[0]
         mask = np.zeros(segments.shape)
         for active in active_pixels:
-            mask[segments == active] = 1
+            mask[segments == active] = 0.251189 # -6dB
         perturbed_image = copy.deepcopy(img)
         perturbed_image = perturbed_image*mask
         perturbed_signal = librosa.istft(perturbed_image)
-        perturbed_signal = perturbed_signal / float(MAX_ABS_INT16)
+        perturbed_signal = perturbed_signal
         return {"img": np.abs(perturbed_image), "audio": perturbed_signal}
 
     def load_model(self):
         self.model = self.spice.model
 
     def get_stft(self, audio_samples):
-        return {"img": np.abs(librosa.stft(audio_samples / float(MAX_ABS_INT16),  n_fft=2048)), "audio": audio_samples}
+        return {"img": np.abs(librosa.stft(audio_samples,  n_fft=2048)), "audio": audio_samples}
 
     def get_perturbations(self, Xi):
         superpixels = skimage.segmentation.slic(Xi["img"], n_segments=self.num_segments, compactness=.1)
