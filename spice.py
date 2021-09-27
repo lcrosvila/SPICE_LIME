@@ -25,6 +25,7 @@ MAX_ABS_INT16 = 32768.0
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 note_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+note_names_octave = [note+str(i) for i in range(11) for note in note_names]
 
 
 class SPICE:
@@ -32,6 +33,7 @@ class SPICE:
         self.model_load_path = config["model_load_path"]
         self.original_audio_path = config["audio_path"]
         self.note_names = note_names
+        self.note_names_octave = note_names_octave
         self.C0 = C0
         self.EXPECTED_SAMPLE_RATE = EXPECTED_SAMPLE_RATE
         self.MAX_ABS_INT16 = MAX_ABS_INT16
@@ -77,8 +79,8 @@ class SPICE:
             ]))
         octave = h // 12
         n = h % 12
-        note_prediction = [0] * len(self.note_names)
-        note_prediction[n] = 1.0 - uncertainty.numpy()
+        note_prediction = [0] * len(self.note_names_octave)
+        note_prediction[h] = 1.0 - uncertainty.numpy()
         return note_prediction
 
     def hz2offset(self, freq):
