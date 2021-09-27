@@ -16,6 +16,8 @@ MAX_ABS_INT16 = 32768.0
 A4 = 440
 C0 = A4 * pow(2, -4.75)
 note_names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+note_names_octave = [note+str(i) for i in range(11) for note in note_names]
+
 
 class LIME:
     def __init__(self, config, spice):
@@ -30,6 +32,7 @@ class LIME:
         self.model_load_path = config["model_load_path"]
         self.original_audio_path = config["audio_path"]
         self.note_names = note_names
+        self.note_names_octave = note_names_octave
         self.C0 = C0
         self.EXPECTED_SAMPLE_RATE = EXPECTED_SAMPLE_RATE
         self.MAX_ABS_INT16 = MAX_ABS_INT16
@@ -72,7 +75,7 @@ class LIME:
         return superpixels, perturbations, predictions, weights
     
     def get_top_bottom(self, audio_samples, name_class_to_explain):
-        class_to_explain = self.note_names.index(name_class_to_explain)
+        class_to_explain = self.note_names_octave.index(name_class_to_explain)
         Xi = self.get_stft(audio_samples)
         superpixels, perturbations, predictions, weights = self.get_perturbations(Xi)
         simpler_model = LinearRegression()
