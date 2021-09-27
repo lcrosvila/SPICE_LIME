@@ -37,7 +37,7 @@ NOTES_IN_OCTAVE = len(NOTES)
 def number_to_note(number: int) -> tuple:
     octave = number // NOTES_IN_OCTAVE
     note = NOTES[number % NOTES_IN_OCTAVE]
-    return note, octave
+    return note+str(octave)
 
 wav_files = glob(DATA_PATH + '/**/*.wav', recursive=True)
 
@@ -54,7 +54,7 @@ for file in tqdm(wav_files[:30]):
     pitch_outputs, confidence_outputs, mean_outputs = spice.get_predictions(audio_samples)
     predicted_notes = spice.get_notes(pitch_outputs, confidence_outputs)
 
-    true_NOTE = number_to_note(int(file.split('/')[-1].split('-')[1]))[0]
+    true_NOTE = number_to_note(int(file.split('/')[-1].split('-')[1]))
     if save:
         dictionary_data["true"].append(true_NOTE)
 
@@ -67,8 +67,6 @@ for file in tqdm(wav_files[:30]):
         if save:
             dictionary_data["prediction"].append([pred_NOTE, None])
         continue
-    
-    pred_NOTE = pred_NOTE[:-1]
 
     if not os.path.exists("results/"+file.split("/")[-1][:-4]):
         os.makedirs("results/"+file.split("/")[-1][:-4])
@@ -92,8 +90,6 @@ for file in tqdm(wav_files[:30]):
         if save:
             dictionary_data["prediction"].append([pred_NOTE, new_pred_NOTE])
         continue
-
-    new_pred_NOTE = new_pred_NOTE[:-1]
 
     if save:
         dictionary_data["prediction"].append([pred_NOTE, new_pred_NOTE])
