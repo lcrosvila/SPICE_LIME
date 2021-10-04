@@ -67,8 +67,9 @@ class LIME:
             _, _, pred = self.model.get_predictions(perturbed_img["audio"])
             predictions.append(pred)
         
-        if 
-        predictions = np.array(predictions)[:,np.newaxis,:]
+        if "spice" in self.model_type:
+            predictions = np.array(predictions)[:,np.newaxis,:]
+            
         original_image = np.ones(num_superpixels)[np.newaxis,:] #Perturbation with all superpixels enabled 
         distances = sklearn.metrics.pairwise_distances(perturbations,original_image, metric='cosine').ravel()
 
@@ -77,7 +78,7 @@ class LIME:
         return superpixels, perturbations, predictions, weights
     
     def find_nearest(array, value):
-        return [[p] for p in array if abs(p-value) < self.pred_precision]
+        return [[value] if abs(p-value) < self.pred_precision else [0] for p in array]
     
     def get_top_bottom(self, audio_samples, name_class_to_explain):
         Xi = self.get_stft(audio_samples)
@@ -88,9 +89,7 @@ class LIME:
             class_to_explain = self.note_names_octave.index(name_class_to_explain)
             simpler_model.fit(X=perturbations, y=predictions[:,:,class_to_explain], sample_weight=weights)
         else:
-            class_to_explain = 
-            simpler_model.fit(X=perturbations, y=predictions[:,:,class_to_explain], sample_weight=weights)
-            
+            simpler_model.fit(X=perturbations, y=find_nearest(predictions,name_class_to_explain), sample_weight=weights)  
         
         coeff = simpler_model.coef_[0]
         top_features = np.argsort(coeff)[-self.num_top_features:] 
