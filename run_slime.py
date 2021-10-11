@@ -23,6 +23,7 @@ config = {"model_load_path": "https://tfhub.dev/google/spice/2",
           "kernel_width": 0.25,
           "model_type": "spice",
           "pred_precision": None,
+          "attenuation": 10**(-12/20), # -12 dB
           "num_top_features": 4}
 
 spice = SPICE(config)
