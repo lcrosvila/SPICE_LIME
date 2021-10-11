@@ -188,7 +188,11 @@ class SPICE:
 
         offsets = [self.hz2offset(p)
                    for p in pitch_outputs_and_rests if p != 0]
-        ideal_offset = statistics.mean(offsets)
+        
+        if len(offsets) > 1:
+            ideal_offset = statistics.mean(offsets)
+        else:
+            ideal_offset = offsets
 
         best_error = float("inf")
         best_notes_and_rests = None
