@@ -35,7 +35,7 @@ OCTAVES = list(range(11))
 NOTES_IN_OCTAVE = len(NOTES)
 
 def number_to_note(number: int) -> tuple:
-    octave = number // NOTES_IN_OCTAVE
+    octave = number // NOTES_IN_OCTAVE - 1
     note = NOTES[number % NOTES_IN_OCTAVE]
     return note+str(octave)
 
