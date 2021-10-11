@@ -29,6 +29,7 @@ class LIME:
         self.num_top_features = config["num_top_features"]
         
         self.pred_precision = config["pred_precision"]
+        self.alpha = config["attenuation"]
 
         self.model_load_path = config["model_load_path"]
         self.original_audio_path = config["audio_path"]
@@ -43,7 +44,7 @@ class LIME:
         active_pixels = np.where(perturbation == 1)[0]
         mask = np.zeros(segments.shape)
         for active in active_pixels:
-            mask[segments == active] = 0.063096 # -12dB
+            mask[segments == active] = self.alpha # -12dB = 0.063096
         perturbed_image = copy.deepcopy(img)
         perturbed_image = perturbed_image*mask
         perturbed_signal = librosa.istft(perturbed_image)
