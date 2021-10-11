@@ -1,0 +1,14 @@
+tqdm
+ipython
+tensorflow
+tensorflow_hub
+tensorboardX
+tensorboard
+numpy
+librosa
+pydub 
+numba==0.48 
+music21 
+scipy==1.2.0
+scikit-image
+notebook
