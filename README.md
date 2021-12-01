@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 # Contents
 
-1. `run_slime.py´: generates a results folder containing a dictionary with `{"filename": [], "prediction": [], "true": []´. It also saves the audio samples of the original, top and bottom signals in both `.wav´ and `.npy´ formats.
+1. `run_slime.py ´: generates a results folder containing a dictionary with `{"filename": [], "prediction": [], "true": []´. It also saves the audio samples of the original, top and bottom signals in both `.wav´ and `.npy´ formats.
 2. `SPICE+LIME.ipynb´: interactive notebook that can be run in google colab that allows running the algorithm with any audio sample with the option of recording new ones.
 
 # Dataset and Results
