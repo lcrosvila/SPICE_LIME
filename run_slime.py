@@ -16,12 +16,12 @@ if os.path.exists("results_data.json"):
 else:
     dictionary_data = {"filename": [], "prediction": [], "true": []}
 
-att = -6 # [0, -6, -12]
+att_db = -6 # [0, -6, -12]
 
-if att != 0:
-  att_db = 10**(att/20)
+if att_db != 0:
+  att = 10**(att_db/20)
 else:
-  att_db = 0.0
+  att = 0.0
 
 config = {"model_load_path": "https://tfhub.dev/google/spice/2",
           "audio_path": "c-scale.wav",
@@ -30,7 +30,7 @@ config = {"model_load_path": "https://tfhub.dev/google/spice/2",
           "kernel_width": 0.25,
           "model_type": "spice",
           "pred_precision": None,
-          "attenuation": att_db,
+          "attenuation": att,
           "num_top_features": 4}
 
 spice = SPICE(config)
