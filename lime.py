@@ -95,10 +95,10 @@ class LIME:
         coeff = simpler_model.coef_[0]
         top_features = np.argsort(coeff)[-self.num_top_features:] 
 
-        pert = np.zeros(np.unique(superpixels).shape[0]) 
-        pert[top_features]= True #Activate top superpixels
+        pert_top = np.zeros(np.unique(superpixels).shape[0]) 
+        pert_top[top_features]= True #Activate top superpixels
 
-        X_top = self.perturb_signal(Xi["audio"], pert,superpixels)
-        X_bottom = self.perturb_signal(Xi["audio"], np.ones(pert.shape)-pert,superpixels)
+        X_top = self.perturb_signal(Xi["audio"], pert_top,superpixels)
+        X_bottom = self.perturb_signal(Xi["audio"], np.ones(pert_top.shape)-pert_top,superpixels)
 
         return X_top, X_bottom
